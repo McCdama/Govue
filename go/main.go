@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,6 +19,11 @@ type Bcrypt struct {
 	Password string `json:"password" xml:"password"`
 	Rounds   int    `json:"rounds" xml:"rounds"`
 	Hash     []byte `json:"hash" xml:"hash"`
+}
+
+type IDs struct {
+	Times int       `json:"times" xml:"times"`
+	Uuid  uuid.UUID `json:"uuid" xml:"uuid"`
 }
 
 func main() {
@@ -38,9 +44,11 @@ func main() {
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong!")
 	})
-	e.POST("/hash", generateHashedPass)
+	e.POST("/hash", gohashPass)
 
 	e.POST("/bcrypt", goBcrypt)
+
+	e.POST("/uuid", gouuid)
 
 	//genBcrypt()
 
@@ -48,6 +56,21 @@ func main() {
 	//checkHash([]byte("$2a$13$//NYiT3pjj6iAv7ZWPvzjO1pMh1ot/8RuK7GdYc81BKkt9R2Ca.Uy"), []byte("mysecretpassword"))
 
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func gouuid(c echo.Context) error {
+
+	numberRequested, _ := strconv.Atoi(c.FormValue("numberRequested"))
+
+	myuuid := uuid.NewV4()
+
+	u := &IDs{
+		Times: numberRequested,
+		Uuid:  myuuid,
+	}
+
+	return c.JSON(http.StatusOK, u)
+
 }
 
 func goBcrypt(c echo.Context) error {
@@ -79,7 +102,7 @@ func goBcrypt(c echo.Context) error {
 // 	}
 // }
 
-func generateHashedPass(c echo.Context) error {
+func gohashPass(c echo.Context) error {
 	rawPassword := c.FormValue("rawPassword")
 	hash, _ := hashPassword(rawPassword)
 

@@ -1,5 +1,5 @@
 <template>
-    <form >
+    <form>
       <div class="space-y-12 sm:space-y-16">
         <div>
           <h2 class="text-base font-semibold leading-7 text-gray-900">Gibberish Tool</h2>

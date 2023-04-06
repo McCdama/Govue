@@ -2,6 +2,7 @@
     <div>
       <HashPass></HashPass>
       <Bcrypt></Bcrypt>
+      <UUID />
     </div>
 </template>
 
@@ -9,6 +10,8 @@
 
 import Bcrypt from './components/Bcrypt.vue'
 import HashPass from './components/HashPass.vue'
+import UUID from './components/UUID.vue'
+
 import { onMounted } from 'vue'
 
 onMounted(() => {
