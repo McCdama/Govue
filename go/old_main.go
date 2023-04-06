@@ -20,7 +20,7 @@ func __main() {
 
 	mux.HandleFunc("/ping", pingHandler)
 	mux.HandleFunc("/hash", __hashHandler)
-	log.Printf("listening on port %s", *flagPort)
+	log.Printf("listenin g on port %s", *flagPort)
 	log.Fatal(http.ListenAndServe(":"+*flagPort, mux))
 }
 

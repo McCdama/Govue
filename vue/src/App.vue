@@ -29,12 +29,19 @@
         GENERATE
       </button>
     </div>
+
+
+    <div>
+      <Bcrypt></Bcrypt>
+    </div>
   </form>
 </template>
 
 <script setup>
 import { CheckCircleIcon } from '@heroicons/vue/20/solid'
 import axios from 'axios'
+import Bcrypt from './components/Bcrypt.vue'
+
 import { ref, onMounted } from 'vue'
 
 const rawPassword = ref('')
