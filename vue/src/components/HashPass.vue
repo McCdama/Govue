@@ -50,7 +50,7 @@
       rawPassword: rawPassword.value,
     }, 
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
   }) .then(function (res) {
       hashedPassword.value = res.data.hash

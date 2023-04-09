@@ -22,7 +22,7 @@ onBeforeMount(() => {
         numberRequested: 1,
     }, 
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
   }) .then(function (res) {
     id.value = res.data.uuid

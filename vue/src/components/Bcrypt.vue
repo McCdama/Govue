@@ -46,7 +46,7 @@ function generateBcrypt() {
     rounds: rounds.value,
   }, 
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
 }) .then(function (res) {
     bcryptedPass.value = res.data.hash

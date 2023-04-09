@@ -11,19 +11,19 @@ import (
 )
 
 type Pass struct {
-	Orginal string `json:"orginal" xml:"orginal"`
-	Hash    string `json:"hash" xml:"hash"`
+	Orginal string `json:"orginal" xml:"orginal" form:"orginal" query:"orginal"`
+	Hash    string `json:"hash" xml:"hash" form:"hash" query:"hash"`
 }
 
 type Bcrypt struct {
-	Password string `json:"password" xml:"password"`
-	Rounds   int    `json:"rounds" xml:"rounds"`
-	Hash     []byte `json:"hash" xml:"hash"`
+	Password string `json:"password" xml:"password" form:"password" query:"password"`
+	Rounds   int    `json:"rounds" xml:"rounds" form:"rounds" query:"rounds"`
+	Hash     []byte `json:"hash" xml:"hash" form:"hash" query:"hash"`
 }
 
 type IDs struct {
-	Times int       `json:"times" xml:"times"`
-	Uuid  uuid.UUID `json:"uuid" xml:"uuid"`
+	Times int       `json:"times" xml:"times" form:"times" query:"times"`
+	Uuid  uuid.UUID `json:"uuid" xml:"uuid" form:"uuid" query:"uuid"`
 }
 
 func main() {
@@ -103,17 +103,28 @@ func goBcrypt(c echo.Context) error {
 // }
 
 func gohashPass(c echo.Context) error {
-	rawPassword := c.FormValue("rawPassword")
-	hash, _ := hashPassword(rawPassword)
+	p := new(Pass)
+	if err := c.Bind(p); err != nil {
+		return c.JSON(http.StatusBadRequest, "Please provid a payload..")
+	}
 
-	u := &Pass{
+	rawPassword := c.FormValue("rawPassword")
+
+	if rawPassword == "" || len(rawPassword) < 8 {
+		return c.JSON(http.StatusBadRequest, "Please provide a password that is at least 8 characters long")
+	}
+
+	hash, err := hashPassword(rawPassword)
+	if err != nil {
+		return c.JSON(http.StatusExpectationFailed, "Something went wrong..")
+	}
+
+	p = &Pass{
 		Orginal: rawPassword,
 		Hash:    hash,
 	}
 
-	return c.JSON(http.StatusOK, u)
-
-	//return c.HTML(http.StatusOK, "<b>Thank you! "+hash+"</b>")
+	return c.JSON(http.StatusOK, p)
 }
 
 func hashPassword(password string) (string, error) {
