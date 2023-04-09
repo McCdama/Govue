@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/McCdama/govue/router"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -27,34 +27,7 @@ type IDs struct {
 }
 
 func main() {
-
-	e := echo.New()
-	// e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-	// 	Skipper: func(c echo.Context) bool {
-	// 		if strings.HasPrefix(c.Request().Host, "localhost") {
-	// 			return true
-	// 		}
-	// 		return false
-	// 	},
-	// }))
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-	}))
-	e.GET("/ping", func(c echo.Context) error {
-		return c.String(http.StatusOK, "pong!")
-	})
-	e.POST("/hash", gohashPass)
-
-	e.POST("/bcrypt", goBcrypt)
-
-	e.POST("/uuid", gouuid)
-
-	//genBcrypt()
-
-	//checkHash([]byte("$2a$10$PzOn.hp6aSI9s8jL7C66qOSQXOCKe8kXXsep6tXfhTCipTP9j2w0GHf."), []byte("mysecretpassword"))
-	//checkHash([]byte("$2a$13$//NYiT3pjj6iAv7ZWPvzjO1pMh1ot/8RuK7GdYc81BKkt9R2Ca.Uy"), []byte("mysecretpassword"))
-
+	e := router.New()
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
@@ -93,17 +66,9 @@ func goBcrypt(c echo.Context) error {
 	return c.JSON(http.StatusOK, u)
 }
 
-// func checkHash(hashedPassword []byte, password []byte) {
-// 	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
-// 	if err != nil {
-// 		fmt.Println("Password does not match.")
-// 	} else {
-// 		fmt.Println("Password matches!")
-// 	}
-// }
-
 func gohashPass(c echo.Context) error {
 	p := new(Pass)
+	// 👇 parses the body and "binds" it to the passed type
 	if err := c.Bind(p); err != nil {
 		return c.JSON(http.StatusBadRequest, "Please provid a payload..")
 	}
