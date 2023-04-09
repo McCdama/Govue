@@ -7,9 +7,7 @@ import (
 
 func UtilGroup(e *echo.Echo) {
 	e.GET("/ping", handlers.Pong)
-	//c.POST("/hash", gohashPass)
-	//
-	//c.POST("/bcrypt", goBcrypt)
-	//
-	//c.POST("/uuid", gouuid)
+	e.POST("/hash", handlers.Gohash)
+	e.POST("/bcrypt", handlers.GoBcrypt)
+	e.POST("/uuid", handlers.Gouuid)
 }
