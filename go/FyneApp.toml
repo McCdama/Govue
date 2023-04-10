@@ -1,0 +1,8 @@
+Website = "https://mccdama.github.io/homepage-github-site/"
+
+[Details]
+Icon = "McCdama.png"
+Name = "Generator App"
+ID = "e2d1ddfe-2b4a-4c0f"
+Version = "1.0.0"
+Build = 1

@@ -5,18 +5,7 @@ import (
 )
 
 func main() {
-	// Fyne App
-	//go func() {
-	a := fyne.NewFyneWindow()
-	a.RunUI()
-	//}()
-
-	// Echo Server
-	//go func() {
-	// e := router.New()
-	// e.Logger.Fatal(e.Start(":8080"))
-	//}()
-
-	// Wait for applications to finish
-	//select {}
+	a := fyne.NewFyne()
+	//a.RunServer()
+	a.RunClock()
 }
